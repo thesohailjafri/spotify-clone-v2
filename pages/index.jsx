@@ -8,7 +8,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className=" bg-green-500 p-4 text-2xl font-bold">
+      <main className=" bg-spotify-100 p-4 text-2xl font-bold">
         Spotify Clone v2
       </main>
     </div>
