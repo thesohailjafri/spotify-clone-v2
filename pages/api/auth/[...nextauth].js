@@ -1,6 +1,26 @@
 import NextAuth from 'next-auth'
 import SpotifyProvider from 'next-auth/providers/spotify'
-import { LOGIN_URL } from '../../../lib/spotify'
+import spotifyApi, { LOGIN_URL } from '../../../lib/spotify'
+// FIXME - accessTokenExpires is undefined
+async function refreshAccessToken(token) {
+  try {
+    spotifyApi.setAccessToken(token.accessToken)
+    spotifyApi.setRefreshToken(token.refreshToken)
+    const { body: refreshedToken } = await spotifyApi.refreshAccessToken()
+    return {
+      ...token,
+      accessToken: refreshedToken.access_token,
+      accessTokenExpires: Date.now() + refreshedToken.expires_in * 1000, // +1 hr from expiration
+      refreshToken: refreshedToken.refresh_token ?? token.refreshToken,
+    }
+  } catch (error) {
+    console.error(error)
+    return {
+      ...token,
+      error: 'REFRESH_TOKEN_ERROR',
+    }
+  }
+}
 
 export default NextAuth({
   // Configure one or more authentication providers
@@ -15,20 +35,35 @@ export default NextAuth({
   ],
   secret: process.env.NEXT_PUBLIC_SECRET,
   pages: {
-    signin: '/login',
+    signIn: '/login',
   },
   callbacks: {
     async jwt(user, account, token) {
       if (account && user) {
+        console.log('jwt', user, account, token)
         return {
           ...token,
           accessToken: account.access_token,
           refreshToken: account.refresh_token,
           username: account.providerAccountId,
           accessTokenExpires: account.expires_at * 1000,
+          //we are handling times in ms hence we x 1000 to convert to seconds
         }
       }
+      //return token if not expired
+      if (Date.now() < token.accessTokenExpires) {
+        console.log('token not expired')
+        return token
+      }
+      //token is expired, refresh it
+      console.log('token expired')
+      return await refreshAccessToken(token)
     },
-    // TODO continue here from 1.11
+    async session({ session, token }) {
+      session.user.accessToken = token.accessToken
+      session.user.refreshToken = token.refreshToken
+      session.user.username = token.username
+      return session
+    },
   },
 })
