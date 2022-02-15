@@ -15,7 +15,7 @@ export default function Login({ providers }) {
         />
         <div className="grid justify-center text-white">
           {Object.values(providers).map((provider) => (
-            <div>
+            <div key={provider.name}>
               <button
                 className="rounded bg-spotify-100 py-3 px-4 font-bold text-white transition-all
               duration-300 ease-out hover:bg-spotify-200"

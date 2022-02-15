@@ -1,3 +1,4 @@
+import { log } from 'console'
 import NextAuth from 'next-auth'
 import SpotifyProvider from 'next-auth/providers/spotify'
 import spotifyApi, { LOGIN_URL } from '../../../lib/spotify'
@@ -38,25 +39,23 @@ export default NextAuth({
     signIn: '/login',
   },
   callbacks: {
-    async jwt(user, account, token) {
+    async jwt({ token, account, user }) {
       if (account && user) {
-        console.log('jwt', user, account, token)
-        return {
-          ...token,
-          accessToken: account.access_token,
-          refreshToken: account.refresh_token,
-          username: account.providerAccountId,
-          accessTokenExpires: account.expires_at * 1000,
-          //we are handling times in ms hence we x 1000 to convert to seconds
-        }
-      }
-      //return token if not expired
-      if (Date.now() < token.accessTokenExpires) {
-        console.log('token not expired')
+        // console.log({ account, user })
+        token.accessToken = account.refresh_token
+        token.accessToken = account.access_token
+        token.username = account.providerAccountId
+        token.accessTokenExpires = account.expires_at * 1000
+        //we are handling times in ms hence we x 1000 to convert to seconds
         return token
       }
-      //token is expired, refresh it
-      console.log('token expired')
+
+      if (Date.now() < token.accessTokenExpires) {
+        // console.log('token not expired')
+        return token
+      }
+
+      // console.log('token expired')
       return await refreshAccessToken(token)
     },
     async session({ session, token }) {
@@ -67,3 +66,33 @@ export default NextAuth({
     },
   },
 })
+
+// callbacks: {
+//   async jwt(user, account, token) {
+//     if (account && user) {
+//       console.log('jwt', user, account, token)
+//       return {
+//         ...token,
+//         accessToken: account.access_token,
+//         refreshToken: account.refresh_token,
+//         username: account.providerAccountId,
+//         accessTokenExpires: account.expires_at * 1000,
+//         //we are handling times in ms hence we x 1000 to convert to seconds
+//       }
+//     }
+//     //return token if not expired
+//     if (Date.now() < token.accessTokenExpires) {
+//       console.log('token not expired')
+//       return token
+//     }
+//     //token is expired, refresh it
+//     console.log('token expired')
+//     return await refreshAccessToken(token)
+//   },
+//   async session({ session, token }) {
+//     session.user.accessToken = token.accessToken
+//     session.user.refreshToken = token.refreshToken
+//     session.user.username = token.username
+//     return session
+//   },
+// },

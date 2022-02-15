@@ -4,6 +4,7 @@ import {
   SearchIcon as SearchIconOl,
   CollectionIcon as CollectionIconOl,
   PlusSmIcon as PlusIconOl,
+  LogoutIcon as LogoutIconOl,
 } from '@heroicons/react/outline'
 
 import { HeartIcon as HeartIconSl } from '@heroicons/react/solid'
@@ -75,6 +76,10 @@ export default function Sidebar() {
         <li className="flex items-center space-x-4">
           <CollectionIconOl className="btn" />
           <span>Your Library</span>
+        </li>
+        <li className="flex items-center space-x-4">
+          <LogoutIconOl className="btn" />
+          <span>Logout</span>
         </li>
       </ul>
       {/* space */}
