@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   HomeIcon as HomeIconOl,
   SearchIcon as SearchIconOl,
@@ -10,7 +10,8 @@ import {
 import { HeartIcon as HeartIconSl } from '@heroicons/react/solid'
 
 import Image from 'next/image'
-
+import useSpotify from '../hooks/useSpotify'
+import { useSession } from 'next-auth/react'
 // array of 20 playlist names
 const playlistNames = [
   'Discover Weekly',
@@ -52,6 +53,19 @@ const playlistNames = [
 ]
 
 export default function Sidebar() {
+  const { data: session } = useSession()
+  const [playlists, setPlaylists] = useState([])
+  const spotify = useSpotify()
+
+  useEffect(() => {
+    if (spotify.getAccessToken()) {
+      spotify.getUserPlaylists().then((res) => {
+        setPlaylists(res.body.items)
+        console.log({ res: res.body.items })
+      })
+    }
+  }, [spotify, session])
+
   return (
     <div className="max-h-screen flex-col space-y-4 px-6 text-lg text-white text-opacity-75 md:flex">
       {/* logo */}
@@ -97,10 +111,10 @@ export default function Sidebar() {
       </ul>
       <hr className=" opacity-50" />
       {/* playlists */}
-      <ul className=" overflow-y-scroll">
-        {playlistNames.map((playlistName, index) => (
+      <ul className=" overflow-y-auto">
+        {playlists.map((playlist, index) => (
           <li key={index} className="flex items-center space-x-4">
-            <span className="">{playlistName}</span>
+            <span className="">{playlist?.name}</span>
           </li>
         ))}
       </ul>

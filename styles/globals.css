@@ -4,6 +4,6 @@
 
 @layer base {
   .btn {
-    @apply h-7 w-7 cursor-pointer;
+    @apply inline h-7 w-7 cursor-pointer;
   }
 }
