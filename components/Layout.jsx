@@ -1,16 +1,20 @@
 import React from 'react'
+import ProfileTab from './ProfileTab'
 import Sidebar from './Sidebar'
 export default function Layout({ children }) {
   return (
     <div
-      className=" flex min-h-screen w-full
-  bg-neutral-900
+      className=" flex max-h-screen min-h-screen w-full
+  bg-neutral-900 
   "
     >
-      <nav className="hidden max-w-xs flex-1 bg-black md:block">
+      <nav className="hidden min-w-[250px] max-w-xs flex-1 bg-black md:block">
         <Sidebar />
       </nav>
-      <main className="grow">{children}</main>
+      <main className="scrollbar-hide h-screen grow overflow-y-scroll scrollbar scrollbar-thin scrollbar-track-black  scrollbar-thumb-spotify-200">
+        <ProfileTab />
+        {children}
+      </main>
     </div>
   )
 }

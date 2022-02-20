@@ -3,7 +3,19 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    @apply text-white;
+  }
+  body {
+    @apply overflow-x-hidden bg-neutral-900;
+  }
+  .btn-sm {
+    @apply inline h-5 w-5 cursor-pointer;
+  }
   .btn {
     @apply inline h-7 w-7 cursor-pointer;
+  }
+  .btn-lg {
+    @apply inline h-20 w-20 cursor-pointer;
   }
 }

@@ -12,56 +12,22 @@ import { HeartIcon as HeartIconSl } from '@heroicons/react/solid'
 import Image from 'next/image'
 import useSpotify from '../hooks/useSpotify'
 import { useSession } from 'next-auth/react'
+import { useRecoilState } from 'recoil'
 // array of 20 playlist names
-const playlistNames = [
-  'Discover Weekly',
-  'Discover Weekly',
-  'Discover Weekly',
-  'Discover Weekly',
-  'Discover Weekly',
-  'Discover Weekly',
-  'Discover Weekly',
-  'Discover Weekly',
-  'Discover Weekly',
-  'Discover Weekly',
-  'Discover Weekly',
-  'Discover Weekly',
-  'Discover Weekly',
-  'Discover Weekly',
-  'Discover Weekly',
-  'Discover Weekly',
-  'Discover Weekly',
-  'Discover Weekly',
-  'Discover Weekly',
-  'Discover Weekly',
-  'Discover Weekly',
-  'Discover Weekly',
-  'Discover Weekly',
-  'Discover Weekly',
-  'Discover Weekly',
-  'Discover Weekly',
-  'Discover Weekly',
-  'Discover Weekly',
-  'Discover Weekly',
-  'Discover Weekly',
-  'Discover Weekly',
-  'Discover Weekly',
-  'Discover Weekly',
-  'Discover Weekly',
-  'Discover Weekly',
-  'Discover Weekly',
-]
-
+import { playlistIdState } from '../atoms/playlistAtom'
+import Link from 'next/link'
 export default function Sidebar() {
   const { data: session } = useSession()
   const [playlists, setPlaylists] = useState([])
+  const [playlistId, setPlaylistId] = useRecoilState(playlistIdState)
   const spotify = useSpotify()
 
   useEffect(() => {
     if (spotify.getAccessToken()) {
       spotify.getUserPlaylists().then((res) => {
-        setPlaylists(res.body.items)
-        console.log({ res: res.body.items })
+        if (res && res.statusCode === 200) {
+          setPlaylists([...res.body.items])
+        }
       })
     }
   }, [spotify, session])
@@ -111,11 +77,17 @@ export default function Sidebar() {
       </ul>
       <hr className=" opacity-50" />
       {/* playlists */}
-      <ul className=" overflow-y-auto">
-        {playlists.map((playlist, index) => (
-          <li key={index} className="flex items-center space-x-4">
-            <span className="">{playlist?.name}</span>
-          </li>
+      <ul className=" space-y-2 overflow-y-auto ">
+        {playlists.map((playlist) => (
+          <Link href={`/playlist/${playlist.id}`}>
+            <li
+              onClick={() => setPlaylistId(playlist.id)}
+              key={playlist?.id}
+              className="flex cursor-pointer items-center space-x-4 font-semibold  opacity-75 transition-opacity duration-100 ease-in-out hover:opacity-100"
+            >
+              <span className="">{playlist?.name}</span>
+            </li>
+          </Link>
         ))}
       </ul>
     </div>

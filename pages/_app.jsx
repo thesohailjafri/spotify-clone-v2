@@ -1,11 +1,22 @@
 import '../styles/globals.css'
 import Layout from '../components/Layout'
 import { SessionProvider } from 'next-auth/react'
-
+import { RecoilRoot } from 'recoil'
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 function MyApp({ Component, pageProps }) {
+  const router = useRouter()
+
+  if (router.pathname === '/login') {
+    return <Component {...pageProps} />
+  }
   return (
     <SessionProvider>
-      <Component {...pageProps} />
+      <RecoilRoot>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </RecoilRoot>
     </SessionProvider>
   )
 }

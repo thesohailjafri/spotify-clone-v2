@@ -8,7 +8,7 @@ export default function ProfileTab() {
   return (
     <div
       onClick={signOut}
-      className="absolute right-2 top-2 flex cursor-pointer items-center space-x-2 rounded-full bg-neutral-800 p-1 text-white"
+      className="absolute right-4 top-2 flex cursor-pointer items-center space-x-2 rounded-full bg-neutral-800 p-1 text-white"
     >
       {session?.user?.picture ? (
         <img
