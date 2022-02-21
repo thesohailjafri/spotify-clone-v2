@@ -113,7 +113,7 @@ export default function Main() {
         </div>
         <div className="">
           <div className="grid grid-cols-12 gap-x-6 font-semibold uppercase text-neutral-400">
-            <div className=" col-span-1 text-right">#</div>
+            <div className=" col-span-1 text-center">#</div>
             <div className=" col-span-9 md:col-span-6 lg:col-span-4">title</div>
             <div className="hidden md:col-span-3 md:block">album</div>
             <div className="hidden lg:col-span-2 lg:block">date added</div>

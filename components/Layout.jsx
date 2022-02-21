@@ -1,6 +1,9 @@
 import React from 'react'
 import ProfileTab from './ProfileTab'
 import Sidebar from './Sidebar'
+import Player from './Player'
+
+import { songState } from '../atoms/songAtom'
 export default function Layout({ children }) {
   return (
     <div
@@ -15,6 +18,7 @@ export default function Layout({ children }) {
         <ProfileTab />
         {children}
       </main>
+      <Player />
     </div>
   )
 }
