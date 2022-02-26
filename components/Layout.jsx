@@ -3,7 +3,8 @@ import ProfileTab from './ProfileTab'
 import Sidebar from './Sidebar'
 import Player from './Player'
 
-import { songState } from '../atoms/songAtom'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 export default function Layout({ children }) {
   return (
     <div
@@ -11,6 +12,7 @@ export default function Layout({ children }) {
   bg-neutral-900 
   "
     >
+      <ToastContainer theme="dark" />
       <nav className="hidden min-w-[250px] max-w-xs flex-1 bg-black md:block">
         <Sidebar />
       </nav>

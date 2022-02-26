@@ -2,7 +2,6 @@ import React from 'react'
 import { getProviders, signIn } from 'next-auth/react'
 import Image from 'next/image'
 export default function Login({ providers }) {
-  console.log(Object.values(providers))
   return (
     <div className=" relative grid min-h-screen w-screen place-content-center bg-neutral-900">
       <dic className=" absolute bottom-2 w-full text-center text-neutral-200">

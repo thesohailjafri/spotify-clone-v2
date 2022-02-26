@@ -20,7 +20,6 @@ export default function Main() {
     const fetchPlaylist = async () => {
       const res = await spotify.getPlaylist(id)
       if (res && res.statusCode === 200) {
-        console.log(res.body)
         let duration = res.body.tracks.items.reduce(
           (prev, current) => prev + current.track.duration_ms / 1000,
           0
@@ -37,7 +36,6 @@ export default function Main() {
     if (spotify.getAccessToken()) {
       fetchPlaylist()
     }
-    console.log({ id })
   }, [id])
 
   const playlistId = useRecoilValue(playlistIdState)

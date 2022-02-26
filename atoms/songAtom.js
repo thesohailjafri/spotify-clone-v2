@@ -1,11 +1,16 @@
 import { atom } from 'recoil'
 
 export const hoverSongState = atom({
-  key: 'hoverSongState',
+  key: 'hoverSong',
   default: null,
 })
 
-export const songState = {
-  key: 'songState',
+export const songState = atom({
+  key: 'song',
   default: null,
-}
+})
+
+export const songPlayingState = atom({
+  key: 'songPlaying',
+  default: false,
+})

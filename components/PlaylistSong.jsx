@@ -2,11 +2,35 @@ import { format, millisecondsToMinutes } from 'date-fns'
 import React from 'react'
 import millisToMinutesAndSeconds from '../utils/millisToMinutesAndSeconds'
 import { hoverSongState } from '../atoms/songAtom'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useSetRecoilState } from 'recoil'
 import { PlayIcon } from '@heroicons/react/solid'
+import { songState, songPlayingState } from '../atoms/songAtom'
+import useSpotify from '../hooks/useSpotify'
+import { toast } from 'react-toastify'
 export default function ({ index, track }) {
   const song = track.track
+  const spotify = useSpotify()
   const [hover, setHover] = useRecoilState(hoverSongState)
+  const setSong = useSetRecoilState(songState)
+  const setSongPlaying = useSetRecoilState(songPlayingState)
+
+  const playSong = () => {
+    setSong(track)
+    setSongPlaying(true)
+    spotify
+      .play({
+        uris: [song.uri],
+      })
+      .then((res) => console.log(res))
+      .catch((err) => {
+        toast.error(err.body.error.message || 'Something went wrong', {
+          autoClose: 3000,
+          hideProgressBar: true,
+        })
+        console.error('Something went wrong!', { err })
+      })
+  }
+
   return (
     <div
       onMouseOver={() => setHover(song.id)}
@@ -15,7 +39,12 @@ export default function ({ index, track }) {
     >
       <div className=" col-span-1 inline-flex items-center justify-center truncate text-right">
         {hover === song.id ? (
-          <PlayIcon className="btn cursor-default" />
+          <PlayIcon
+            className="btn cursor-default"
+            onClick={() => {
+              playSong()
+            }}
+          />
         ) : (
           index + 1
         )}
@@ -43,13 +72,13 @@ export default function ({ index, track }) {
           </p>
         </div>
       </div>
-      <div className="hidden truncate md:col-span-3 md:block">
+      <div className="my-auto hidden truncate md:col-span-3 md:block">
         {song.album?.name}
       </div>
       <div className="hidden truncate lg:col-span-2 lg:block">
         {format(new Date(track.added_at), 'PP')}
       </div>
-      <div className=" col-span-2 truncate">
+      <div className=" col-span-2 my-auto truncate">
         {millisToMinutesAndSeconds(song?.duration_ms)}
       </div>
     </div>
