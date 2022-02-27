@@ -61,8 +61,8 @@ export default function Main() {
       <section
         className={` h-80 w-full bg-gradient-to-b ${color[0]} ${color[1]} flex items-end`}
       >
-        <div className="m-6 flex gap-6">
-          <div>
+        <div className="m-6 flex items-end justify-start gap-6">
+          <div className="">
             <div
               className="h-48 w-48 overflow-hidden bg-cover bg-center shadow-2xl"
               style={{
@@ -74,7 +74,9 @@ export default function Main() {
             <span className="text-sm font-bold uppercase">
               {playlist?.type}
             </span>
-            <h2 className=" text-6xl font-bold">{playlist?.name}</h2>
+            <h2 className=" text-4xl font-bold md:text-5xl lg:text-6xl">
+              {playlist?.name}
+            </h2>
             <div>
               <span className=" font-semibold">
                 {playlist?.owner?.display_name}

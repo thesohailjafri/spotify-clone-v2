@@ -28,7 +28,6 @@ export default function Player() {
 
   const setVolumnDebounced = useCallback(
     debounce((volume) => {
-      console.log(volume)
       spotify
         .setVolume(volume)
         .then((res) => console.log(res))
@@ -44,9 +43,10 @@ export default function Player() {
   )
 
   useEffect(() => {
-    if (volume >= 0 && volume <= 100) {
-      setVolumnDebounced(volume)
-    }
+    if (song)
+      if (volume >= 0 && volume <= 100) {
+        setVolumnDebounced(volume)
+      }
   }, [volume])
 
   return (

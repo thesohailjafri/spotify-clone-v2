@@ -8,7 +8,7 @@ export default function ProfileTab() {
   return (
     <div
       onClick={signOut}
-      className="absolute right-4 top-2 flex cursor-pointer items-center space-x-2 rounded-full bg-neutral-800 p-1 text-white"
+      className="absolute right-4 top-2 flex cursor-pointer items-center space-x-2 rounded-full bg-neutral-800 p-1 text-white shadow-lg"
     >
       {session?.user?.picture ? (
         <img
@@ -20,7 +20,7 @@ export default function ProfileTab() {
           <UserIcon className="btn rounded-full bg-neutral-500 p-1" />
         </div>
       )}
-      <div className="flex items-center pr-4 font-bold">
+      <div className="hidden items-center pr-4 font-bold lg:flex">
         <span>{session?.user?.name}</span>
         <span>
           <ChevronDownIcon className="btn h-5" />

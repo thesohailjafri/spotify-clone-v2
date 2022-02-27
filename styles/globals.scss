@@ -9,57 +9,10 @@
   body {
     @apply bg-neutral-900 overflow-x-hidden;
   }
-  .btn-sm {
-    @apply inline h-5 w-5 cursor-pointer;
+  li {
+    @apply cursor-pointer;
   }
-  .btn {
-    @apply inline h-7 w-7 cursor-pointer;
-  }
-  .btn-lg {
-    @apply inline h-20 w-20 cursor-pointer;
-  }
-  .vol-controller {
-    @apply hidden items-center  justify-end gap-1 text-neutral-400 transition-all duration-100 
-    ease-out hover:text-neutral-50 md:flex;
-    input {
-      @apply h-1 w-32 appearance-none rounded-full 
-      text-neutral-600;
-
-      /* slider bg up n down */
-      &::-ms-fill-lower {
-        @apply bg-neutral-600;
-      }
-      &::-ms-fill-upper {
-        @apply bg-neutral-400;
-      }
-      &::-moz-range-track {
-        @apply bg-neutral-600;
-      }
-      &::-moz-range-progress {
-        @apply bg-neutral-400;
-      }
-      /* slider thumb */
-      &::-webkit-slider-thumb {
-        @apply h-3 w-3 cursor-pointer rounded-full border-0 opacity-0;
-      }
-      &::-moz-range-thumb {
-        @apply h-3 w-3 cursor-pointer rounded-full border-0 opacity-0;
-      }
-    }
-
-    &:hover > input {
-      &::-ms-fill-upper {
-        @apply bg-spotify-200;
-      }
-      &::-moz-range-progress {
-        @apply bg-spotify-200;
-      }
-      &::-webkit-slider-thumb {
-        opacity: 1;
-      }
-      &::-moz-range-thumb {
-        opacity: 1;
-      }
-    }
+  img {
+    @apply overflow-hidden;
   }
 }

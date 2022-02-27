@@ -1,9 +1,12 @@
+import '../styles/util.scss'
 import '../styles/globals.scss'
+
 import Layout from '../components/Layout'
 import { SessionProvider } from 'next-auth/react'
 import { RecoilRoot } from 'recoil'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
+
 function MyApp({ Component, pageProps }) {
   const router = useRouter()
 

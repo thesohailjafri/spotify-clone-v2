@@ -13,7 +13,6 @@ import Image from 'next/image'
 import useSpotify from '../hooks/useSpotify'
 import { useSession } from 'next-auth/react'
 import { useRecoilState } from 'recoil'
-// array of 20 playlist names
 import { playlistIdState } from '../atoms/playlistAtom'
 import Link from 'next/link'
 export default function Sidebar() {
@@ -45,14 +44,18 @@ export default function Sidebar() {
       </div>
       {/* main nav */}
       <ul className=" space-y-4 font-bold">
-        <li className="flex items-center space-x-4">
-          <HomeIconOl className="btn" />
-          <span>Home</span>
-        </li>
-        <li className="flex items-center space-x-4">
-          <SearchIconOl className="btn" />
-          <span>Search</span>
-        </li>
+        <Link href="/">
+          <li className="flex items-center space-x-4">
+            <HomeIconOl className="btn" />
+            <span>Home</span>
+          </li>
+        </Link>
+        <Link href="/search">
+          <li className="flex items-center space-x-4">
+            <SearchIconOl className="btn" />
+            <span>Search</span>
+          </li>
+        </Link>
         <li className="flex items-center space-x-4">
           <CollectionIconOl className="btn" />
           <span>Your Library</span>
@@ -83,9 +86,9 @@ export default function Sidebar() {
             <li
               onClick={() => setPlaylistId(playlist.id)}
               key={playlist?.id}
-              className="flex cursor-pointer items-center space-x-4 font-semibold  opacity-75 transition-opacity duration-100 ease-in-out hover:opacity-100"
+              className="flex cursor-pointer items-center space-x-4 text-sm font-semibold  opacity-75 transition-opacity duration-100 ease-in-out hover:opacity-100"
             >
-              <span className="">{playlist?.name}</span>
+              <span className=" truncate">{playlist?.name}</span>
             </li>
           </Link>
         ))}
