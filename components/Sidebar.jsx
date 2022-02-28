@@ -80,7 +80,7 @@ export default function Sidebar() {
       </ul>
       <hr className=" opacity-50" />
       {/* playlists */}
-      <ul className=" space-y-2 overflow-y-auto ">
+      <ul className=" space-y-2 overflow-y-auto scrollbar scrollbar-thin  scrollbar-track-black scrollbar-thumb-spotify-200">
         {playlists.map((playlist) => (
           <Link href={`/playlist/${playlist.id}`}>
             <li

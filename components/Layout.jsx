@@ -23,8 +23,10 @@ export default function Layout({ children }) {
           count = 4
         } else if (width < 1536) {
           count = 5
-        } else {
+        } else if (width < 2000) {
           count = 7
+        } else {
+          count = 8
         }
         return count
       }
@@ -50,7 +52,7 @@ export default function Layout({ children }) {
       <nav className="hidden min-w-[250px] max-w-xs flex-1 bg-black md:block">
         <Sidebar />
       </nav>
-      <main className="scrollbar-hide h-screen grow overflow-y-scroll scrollbar scrollbar-thin scrollbar-track-black  scrollbar-thumb-spotify-200">
+      <main className="scrollbar-hide h-screen grow overflow-y-scroll scrollbar scrollbar-thin  scrollbar-track-black scrollbar-thumb-spotify-200">
         <ProfileTab />
         {children}
       </main>
