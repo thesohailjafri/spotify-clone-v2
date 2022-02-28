@@ -23,3 +23,5 @@ https://daily-dev-tips.com/posts/retrieving-a-persons-spotify-playlist-in-nextjs
 ### Your Library
 
 ### Queue
+
+### Artist Page

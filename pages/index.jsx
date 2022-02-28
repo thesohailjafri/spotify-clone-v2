@@ -7,6 +7,10 @@ import {
   newReleasesState,
   recommendationState,
   categoriesState,
+  top3ArtistsState,
+  firstArtistPlaylistsState,
+  secondArtistPlaylistsState,
+  thridArtistPlaylistsState,
 } from '../atoms/homeAtom'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { useEffect } from 'react'
@@ -23,6 +27,17 @@ export default function Home() {
   const spotify = useSpotify()
   const { data: session } = useSession()
   const cardCount = useRecoilValue(cardCountState)
+  const [top3Artists, setTop3Artists] = useRecoilState(top3ArtistsState)
+  const [firstArtistPlaylists, setFirstArtistPlaylists] = useRecoilState(
+    firstArtistPlaylistsState
+  )
+  const [secondArtistPlaylists, setSecondArtistPlaylists] = useRecoilState(
+    secondArtistPlaylistsState
+  )
+  const [thridArtistPlaylists, setThridArtistPlaylists] = useRecoilState(
+    thridArtistPlaylistsState
+  )
+
   const [featuredPlaylists, setFeaturedPlaylists] = useRecoilState(
     featuredPlaylistsState
   )
@@ -56,6 +71,7 @@ export default function Home() {
             limit: 3,
           })
           .then((data) => {
+            setTop3Artists(data?.body?.items)
             spotify
               .getRecommendations({
                 min_energy: 0.7,
@@ -63,12 +79,46 @@ export default function Home() {
                   '1Xyo4u8uXC1ZmMpatF05PJ',
                 ],
                 limit: 8,
-                min_popularity: 70,
+                min_popularity: 80,
               })
               .then((data) => {
                 setRecommendation(data?.body?.tracks)
               })
               .catch((err) => console.error('getRecommendations', err))
+
+            if (data.body.items) {
+              const artists = data.body.items
+
+              spotify
+                .getArtistTopTracks(artists[0].id, 'IN')
+                .then((data) => {
+                  setFirstArtistPlaylists({
+                    name: artists[0].name,
+                    tracks: data?.body?.tracks,
+                  })
+                })
+                .catch((err) => console.error('getArtistTopTracks', err))
+
+              spotify
+                .getArtistTopTracks(artists[1].id, 'IN')
+                .then((data) => {
+                  setSecondArtistPlaylists({
+                    name: artists[1].name,
+                    tracks: data?.body?.tracks,
+                  })
+                })
+                .catch((err) => console.error('getArtistTopTracks', err))
+
+              spotify
+                .getArtistTopTracks(artists[2].id, 'IN')
+                .then((data) => {
+                  setThridArtistPlaylists({
+                    name: artists[2].name,
+                    tracks: data?.body?.tracks,
+                  })
+                })
+                .catch((err) => console.error('getArtistTopTracks', err))
+            }
           })
           .catch((err) => console.error('getMyTopArtists', err))
       }
@@ -128,7 +178,7 @@ export default function Home() {
               <span className="see-all">See All</span>
             </Link>
           </div>
-          <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 3xl:grid-cols-8">
+          <div className=" card-grid">
             {recommendations.slice(0, cardCount).map((item) => (
               <TrackCard key={item.id} data={item} />
             ))}
@@ -142,7 +192,7 @@ export default function Home() {
               <span className="see-all">See All</span>
             </Link>
           </div>
-          <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 3xl:grid-cols-8">
+          <div className=" card-grid">
             {newReleases.slice(0, cardCount).map((item) => (
               <AlbumCard key={item.id} data={item} />
             ))}
@@ -156,9 +206,58 @@ export default function Home() {
               <span className="see-all">See All</span>
             </Link>
           </div>
-          <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 3xl:grid-cols-8">
+          <div className=" card-grid">
             {categories.slice(0, cardCount).map((item) => (
               <CategoryCard key={item.id} data={item} />
+            ))}
+          </div>
+        </div>
+        {/* artist tracks */}
+        {/* first */}
+        <div>
+          <div className="mb-3 flex items-end  justify-between">
+            <h4 className=" text-2xl font-bold">
+              More of {firstArtistPlaylists.name}
+            </h4>
+            <Link href="/search">
+              <span className="see-all">See All</span>
+            </Link>
+          </div>
+          <div className=" card-grid">
+            {firstArtistPlaylists.tracks.slice(0, cardCount).map((item) => (
+              <TrackCard key={item.id} data={item} />
+            ))}
+          </div>
+        </div>
+        {/* second */}
+        <div>
+          <div className="mb-3 flex items-end  justify-between">
+            <h4 className=" text-2xl font-bold">
+              More of {secondArtistPlaylists.name}
+            </h4>
+            <Link href="/search">
+              <span className="see-all">See All</span>
+            </Link>
+          </div>
+          <div className=" card-grid">
+            {secondArtistPlaylists.tracks.slice(0, cardCount).map((item) => (
+              <TrackCard key={item.id} data={item} />
+            ))}
+          </div>
+        </div>
+        {/* thrid */}
+        <div>
+          <div className="mb-3 flex items-end  justify-between">
+            <h4 className=" text-2xl font-bold">
+              More of {thridArtistPlaylists.name}
+            </h4>
+            <Link href="/search">
+              <span className="see-all">See All</span>
+            </Link>
+          </div>
+          <div className=" card-grid">
+            {thridArtistPlaylists.tracks.slice(0, cardCount).map((item) => (
+              <TrackCard key={item.id} data={item} />
             ))}
           </div>
         </div>
