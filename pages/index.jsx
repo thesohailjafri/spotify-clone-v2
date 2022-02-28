@@ -155,7 +155,6 @@ export default function Home() {
     <div>
       <Head>
         <title>Home</title>
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="grid gap-y-6 p-3">
         {/* featured */}

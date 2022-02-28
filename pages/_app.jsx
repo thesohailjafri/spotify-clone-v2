@@ -6,6 +6,7 @@ import { SessionProvider } from 'next-auth/react'
 import { RecoilRoot } from 'recoil'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
+import Head from 'next/head'
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter()
@@ -15,6 +16,9 @@ function MyApp({ Component, pageProps }) {
   }
   return (
     <SessionProvider>
+      <Head>
+        <link rel="icon" href="/spotify.ico" />
+      </Head>
       <RecoilRoot>
         <Layout>
           <Component {...pageProps} />
