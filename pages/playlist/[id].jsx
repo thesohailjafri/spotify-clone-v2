@@ -7,7 +7,7 @@ import useSpotify from '../../hooks/useSpotify'
 import { useRouter } from 'next/router'
 import { secondsToHours, secondsToMinutes } from 'date-fns'
 import { PlayIcon, PauseIcon, DotsHorizontalIcon } from '@heroicons/react/solid'
-import { ClockIcon } from '@heroicons/react/outline'
+import { ClockIcon, MusicNoteIcon } from '@heroicons/react/solid'
 import PlaylistSong from '../../components/PlaylistSong'
 
 export default function Main() {
@@ -59,18 +59,24 @@ export default function Main() {
   return (
     <main className=" overflow-y-auto">
       <section
-        className={` h-80 w-full bg-gradient-to-b ${color[0]} ${color[1]} flex items-end`}
+        className={`h-56 w-full bg-gradient-to-b md:h-80 ${color[0]} ${color[1]} flex items-end`}
       >
-        <div className="m-6 flex items-end justify-start gap-6">
+        <div className="m-6 flex items-center justify-start gap-6 md:items-end">
           <div className="">
-            <div
-              className="h-48 w-48 overflow-hidden bg-cover bg-center shadow-2xl"
-              style={{
-                backgroundImage: `url(${playlist?.images[0]?.url})`,
-              }}
-            />
+            {playlist?.images[0]?.url ? (
+              <div
+                className="h-28 w-28 overflow-hidden bg-cover bg-center shadow-2xl md:h-48 md:w-48"
+                style={{
+                  backgroundImage: `url(${playlist?.images[0]?.url})`,
+                }}
+              />
+            ) : (
+              <div className="grid h-28 w-28 place-items-center overflow-hidden bg-neutral-800 bg-cover bg-center shadow-2xl md:h-48 md:w-48">
+                <MusicNoteIcon className="h-20 w-20 text-neutral-400" />
+              </div>
+            )}
           </div>
-          <div className="flex flex-col justify-end gap-3">
+          <div className="flex flex-col justify-end gap-2 md:gap-3">
             <span className="text-sm font-bold uppercase">
               {playlist?.type}
             </span>

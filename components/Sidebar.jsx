@@ -34,12 +34,11 @@ export default function Sidebar() {
   return (
     <div className="max-h-screen flex-col space-y-4 px-6 text-lg text-white text-opacity-75 md:flex">
       {/* logo */}
-      <div className="mt-2">
-        <Image
-          src="/assets/images/spotify-logo.svg"
-          layout="responsive"
-          width={300}
-          height={80}
+      <div className="mt-8 mb-4">
+        <img
+          src="../assets/images/spotify-logo.png"
+          className=" w-40 object-contain"
+          alt="logo"
         />
       </div>
       {/* main nav */}
@@ -60,10 +59,6 @@ export default function Sidebar() {
           <CollectionIconOl className="btn" />
           <span>Your Library</span>
         </li>
-        <li className="flex items-center space-x-4">
-          <LogoutIconOl className="btn" />
-          <span>Logout</span>
-        </li>
       </ul>
       {/* space */}
       <div className=" h-2" />
@@ -80,7 +75,7 @@ export default function Sidebar() {
       </ul>
       <hr className=" opacity-50" />
       {/* playlists */}
-      <ul className=" space-y-2 overflow-y-auto scrollbar scrollbar-thin  scrollbar-track-black scrollbar-thumb-spotify-200">
+      <ul className=" space-y-2 overflow-y-auto scrollbar scrollbar-thin  scrollbar-thumb-black">
         {playlists.map((playlist) => (
           <Link href={`/playlist/${playlist.id}`}>
             <li

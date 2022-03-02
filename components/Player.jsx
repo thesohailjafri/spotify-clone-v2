@@ -52,14 +52,14 @@ export default function Player() {
   return (
     <div
       className={classNames(
-        `absolute bottom-0 left-0
-         grid w-full grid-cols-2 items-center justify-between 
-         gap-3 overflow-hidden bg-neutral-800
-          px-4 text-neutral-100 
+        `absolute  left-0
+         grid w-full grid-cols-2 items-center 
+         justify-between gap-3 overflow-hidden
+          bg-neutral-800 px-4 text-neutral-100
           transition-['height'] duration-300  ease-out md:grid-cols-3`,
         {
-          'h-20': song,
-          'h-0': !song,
+          'bottom-14 h-20  md:bottom-0': song,
+          '-bottom-20 h-0': !song,
         }
       )}
     >

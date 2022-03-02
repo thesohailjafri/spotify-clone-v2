@@ -7,6 +7,7 @@ import { debounce } from 'lodash'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { useSetRecoilState } from 'recoil'
+import BottomBar from './BottomBar'
 export default function Layout({ children }) {
   const setWindowWidthState = useSetRecoilState(windowWidthState)
   const setCardCount = useSetRecoilState(cardCountState)
@@ -52,11 +53,14 @@ export default function Layout({ children }) {
       <nav className="hidden min-w-[250px] max-w-xs flex-1 bg-black md:block">
         <Sidebar />
       </nav>
-      <main className="scrollbar-hide h-screen grow overflow-y-scroll scrollbar scrollbar-thin  scrollbar-track-black scrollbar-thumb-spotify-200">
+      <nav className="b absolute bottom-0 block h-14 w-full bg-black md:hidden">
+        <BottomBar />
+      </nav>
+      <main className="scrollbar-hide h-screen grow overflow-y-scroll scrollbar scrollbar-thin  scrollbar-thumb-black">
         <ProfileTab />
         {children}
+        <Player />
       </main>
-      <Player />
     </div>
   )
 }
