@@ -25,7 +25,7 @@ export default function Player() {
   const [track, setTrack] = useRecoilState(songState)
   const song = track?.track
   const [volume, setVolume] = useState(50)
-
+  // FIXME fetching song info is not working fetch using spotify rather then using data stored in state
   const setVolumnDebounced = useCallback(
     debounce((volume) => {
       spotify

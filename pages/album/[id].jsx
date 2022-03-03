@@ -2,39 +2,38 @@ import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { parseInt, shuffle } from 'lodash'
 import { useRecoilState, useRecoilValue } from 'recoil'
-import { playlistIdState, playlistState } from '../../atoms/playlistAtom'
 import useSpotify from '../../hooks/useSpotify'
 import { useRouter } from 'next/router'
-import { secondsToHours, secondsToMinutes } from 'date-fns'
+import { format, secondsToHours, secondsToMinutes } from 'date-fns'
 import { PlayIcon, PauseIcon, DotsHorizontalIcon } from '@heroicons/react/solid'
 import { ClockIcon, MusicNoteIcon } from '@heroicons/react/solid'
-import PlaylistSong from '../../components/PlaylistSong'
-
+import { albumIdState, albumState } from '../../atoms/albumAtom'
+import AlbumSong from '../../components/AlbumSong'
 export default function Main() {
   const router = useRouter()
   const { id } = router.query
-
+  const [album, setAlbum] = useRecoilState(albumState)
   const spotify = useSpotify()
-  const [playlist, setPlaylist] = useRecoilState(playlistState)
   useEffect(() => {
     const fetchData = () => {
       spotify
-        .getPlaylist(id)
+        .getAlbum(id)
         .then((res) => {
           let duration = res.body.tracks.items.reduce(
-            (prev, current) => prev + current.track.duration_ms / 1000,
+            (prev, current) => prev + current.duration_ms / 1000,
             0
           )
+
           res.body.durationInHour = secondsToHours(duration)
           !res.body.durationInHour &&
             (res.body.durationInMinutes = secondsToMinutes(duration))
           res.body.totalSongs = res.body.tracks.items.length
 
-          console.log('reduce', res.body.totalSongs)
-          setPlaylist(res.body)
+          console.log(duration)
+          setAlbum(res.body)
         })
         .catch((err) => {
-          router.replace('/notfound')
+          //   router.replace('/notfound')
         })
     }
     if (spotify.getAccessToken()) {
@@ -42,7 +41,7 @@ export default function Main() {
     }
   }, [id])
 
-  const playlistId = useRecoilValue(playlistIdState)
+  const albumId = useRecoilValue(albumIdState)
   const colors = [
     ['from-blue-400', 'to-blue-800'],
     ['from-red-400', 'to-red-800'],
@@ -58,7 +57,7 @@ export default function Main() {
   const [color, setColor] = useState(colors[0])
   useEffect(() => {
     setColor(shuffle(colors).pop())
-  }, [playlistId])
+  }, [albumId])
 
   return (
     <main className=" overflow-y-auto">
@@ -67,11 +66,11 @@ export default function Main() {
       >
         <div className="m-6 flex items-center justify-start gap-6 md:items-end">
           <div className="">
-            {playlist?.images[0]?.url ? (
+            {album?.images[0]?.url ? (
               <div
                 className="h-28 w-28 overflow-hidden bg-cover bg-center shadow-2xl md:h-48 md:w-48"
                 style={{
-                  backgroundImage: `url(${playlist?.images[0]?.url})`,
+                  backgroundImage: `url(${album?.images[0]?.url})`,
                 }}
               />
             ) : (
@@ -81,34 +80,29 @@ export default function Main() {
             )}
           </div>
           <div className="flex flex-col justify-end gap-2 md:gap-3">
-            <span className="text-sm font-bold uppercase">
-              {playlist?.type}
-            </span>
+            <span className="text-sm font-bold uppercase">{album?.type}</span>
             <h2 className=" text-4xl font-bold md:text-5xl lg:text-6xl">
-              {playlist?.name}
+              {album?.name}
             </h2>
             <div>
               <span className=" font-semibold">
-                {playlist?.owner?.display_name}
+                {album?.tracks?.items[0]?.artists[0]?.name}
               </span>{' '}
               |{' '}
               <span className="text-sm">
-                {playlist?.totalSongs}{' '}
-                {playlist?.totalSongs > 1 ? 'Songs' : 'Song'}
+                {album?.release_date &&
+                  format(new Date(album?.release_date), 'Y')}
               </span>{' '}
               |{' '}
               <span className="text-sm">
-                {playlist?.followers?.total}{' '}
-                {playlist?.followers?.total?.length > 1
-                  ? 'Followers'
-                  : 'Follower'}
+                {album?.totalSongs} {album?.totalSongs > 1 ? 'Songs' : 'Song'}
               </span>{' '}
               |{' '}
               <span className="text-sm text-neutral-300">
                 About{' '}
-                {playlist?.durationInHour
-                  ? playlist?.durationInHour + ' hours'
-                  : playlist?.durationInMinutes + ' minutes'}
+                {album?.durationInHour
+                  ? album?.durationInHour + ' hours'
+                  : album?.durationInMinutes + ' minutes'}
               </span>
             </div>
           </div>
@@ -124,9 +118,7 @@ export default function Main() {
         <div className="">
           <div className="grid grid-cols-12 gap-x-6 font-semibold uppercase text-neutral-400">
             <div className=" col-span-1 text-center">#</div>
-            <div className=" col-span-9 md:col-span-6 lg:col-span-4">title</div>
-            <div className="hidden md:col-span-3 md:block">album</div>
-            <div className="hidden lg:col-span-2 lg:block">date added</div>
+            <div className=" col-span-9 ">title</div>
             <div className=" col-span-2">
               <ClockIcon className="btn-sm" />
             </div>
@@ -134,8 +126,8 @@ export default function Main() {
 
           <hr className="mt-3 mb-5 opacity-50" />
           <div className="space-y-2 ">
-            {playlist?.tracks?.items.map((item, index) => (
-              <PlaylistSong track={item} index={index} key={item.id} />
+            {album?.tracks?.items.map((item, index) => (
+              <AlbumSong track={item} index={index} key={item.id} />
             ))}
           </div>
         </div>
