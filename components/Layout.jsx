@@ -6,11 +6,14 @@ import { cardCountState, windowWidthState } from '../atoms/globalAtom'
 import { debounce } from 'lodash'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { useSetRecoilState } from 'recoil'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
 import BottomBar from './BottomBar'
+import { songState } from '../atoms/songAtom'
+import classNames from 'classnames'
 export default function Layout({ children }) {
   const setWindowWidthState = useSetRecoilState(windowWidthState)
   const setCardCount = useSetRecoilState(cardCountState)
+  const song = useRecoilValue(songState)
   const setWindowWidthDebounched = useCallback(
     debounce(() => {
       const width = window.innerWidth
@@ -59,6 +62,7 @@ export default function Layout({ children }) {
       <main className="scrollbar-hide h-screen grow overflow-y-scroll scrollbar scrollbar-thin  scrollbar-thumb-black">
         <ProfileTab />
         {children}
+        <div className={classNames({ 'h-0': !song.id }, { 'h-20': song.id })} />
         <Player />
       </main>
     </div>

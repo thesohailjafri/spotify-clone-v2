@@ -7,14 +7,19 @@ import { PlayIcon } from '@heroicons/react/solid'
 import { songState, songPlayingState } from '../atoms/songAtom'
 import useSpotify from '../hooks/useSpotify'
 import { toast } from 'react-toastify'
-export default function AlbumSong({ track, index }) {
+export default function AlbumSong({ track, index, album }) {
   const song = track
   const spotify = useSpotify()
   const [hover, setHover] = useRecoilState(hoverSongState)
   const setSong = useSetRecoilState(songState)
   const setSongPlaying = useSetRecoilState(songPlayingState)
   const playSong = () => {
-    setSong(track)
+    setSong({
+      id: track.id,
+      name: track.name,
+      artists: track.artists,
+      image: album?.images[0]?.url,
+    })
     setSongPlaying(true)
     spotify
       .play({

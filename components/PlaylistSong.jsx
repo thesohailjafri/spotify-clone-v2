@@ -15,7 +15,12 @@ export default function ({ index, track }) {
   const setSongPlaying = useSetRecoilState(songPlayingState)
 
   const playSong = () => {
-    setSong(track)
+    setSong({
+      id: track.track.id,
+      name: track.track.name,
+      artists: track.track.artists,
+      image: track.track.album?.images[2]?.url,
+    })
     setSongPlaying(true)
     spotify
       .play({

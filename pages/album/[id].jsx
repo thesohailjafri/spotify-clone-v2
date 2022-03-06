@@ -14,8 +14,8 @@ export default function Main() {
   const { id } = router.query
   const [album, setAlbum] = useRecoilState(albumState)
   const spotify = useSpotify()
-  useEffect(() => {
-    const fetchData = () => {
+  const fetchData = () => {
+    if (spotify.getAccessToken()) {
       spotify
         .getAlbum(id)
         .then((res) => {
@@ -36,10 +36,13 @@ export default function Main() {
           //   router.replace('/notfound')
         })
     }
-    if (spotify.getAccessToken()) {
-      fetchData()
-    }
+  }
+  useEffect(() => {
+    fetchData()
   }, [id])
+  useEffect(() => {
+    fetchData()
+  }, [])
 
   const albumId = useRecoilValue(albumIdState)
   const colors = [
@@ -127,7 +130,12 @@ export default function Main() {
           <hr className="mt-3 mb-5 opacity-50" />
           <div className="space-y-2 ">
             {album?.tracks?.items.map((item, index) => (
-              <AlbumSong track={item} index={index} key={item.id} />
+              <AlbumSong
+                track={item}
+                index={index}
+                key={item.id}
+                album={album}
+              />
             ))}
           </div>
         </div>

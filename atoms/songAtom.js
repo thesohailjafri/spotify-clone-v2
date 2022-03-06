@@ -7,7 +7,12 @@ export const hoverSongState = atom({
 
 export const songState = atom({
   key: 'songState',
-  default: null,
+  default: {
+    id: '',
+    name: '',
+    artists: [],
+    image: '',
+  },
 })
 
 export const songPlayingState = atom({

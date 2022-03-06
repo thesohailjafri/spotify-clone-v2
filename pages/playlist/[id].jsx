@@ -16,8 +16,8 @@ export default function Main() {
 
   const spotify = useSpotify()
   const [playlist, setPlaylist] = useRecoilState(playlistState)
-  useEffect(() => {
-    const fetchData = () => {
+  const fetchData = () => {
+    if (spotify.getAccessToken()) {
       spotify
         .getPlaylist(id)
         .then((res) => {
@@ -37,10 +37,13 @@ export default function Main() {
           router.replace('/notfound')
         })
     }
-    if (spotify.getAccessToken()) {
-      fetchData()
-    }
+  }
+  useEffect(() => {
+    fetchData()
   }, [id])
+  useEffect(() => {
+    fetchData()
+  }, [])
 
   const playlistId = useRecoilValue(playlistIdState)
   const colors = [

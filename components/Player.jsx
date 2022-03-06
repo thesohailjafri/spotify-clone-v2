@@ -22,8 +22,7 @@ import useSongInfo from '../hooks/useSongInfo'
 import { toast } from 'react-toastify'
 export default function Player() {
   const spotify = useSpotify()
-  const [track, setTrack] = useRecoilState(songState)
-  const song = track?.track
+  const song = useRecoilValue(songState)
   const [volume, setVolume] = useState(50)
   // FIXME fetching song info is not working fetch using spotify rather then using data stored in state
   const setVolumnDebounced = useCallback(
@@ -58,21 +57,21 @@ export default function Player() {
           bg-neutral-800 px-4 text-neutral-100
           transition-['height'] duration-300  ease-out md:grid-cols-3`,
         {
-          'bottom-14 h-20  md:bottom-0': song,
-          '-bottom-20 h-0': !song,
+          'bottom-14 h-20  md:bottom-0': song.id,
+          '-bottom-20 h-0': !song.id,
         }
       )}
     >
       <div className="flex items-center gap-3 ">
         <img
-          src={song?.album?.images[2]?.url}
-          alt=""
+          src={song?.image}
+          alt={song?.name}
           className="h-14 w-14 shrink-0 overflow-hidden bg-black bg-cover"
         />
         <div className="truncate">
           <h6 className=" text-neutral-100">{song?.name}</h6>
           <p className="max-w-xs text-xs text-neutral-300">
-            {song?.artists.map((item) => item.name).join(', ')}
+            {song?.artists?.map((item) => item.name).join(', ')}
           </p>
         </div>
         {/* <HeartIconOutline className="btn-sm " /> */}
