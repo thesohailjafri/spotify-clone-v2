@@ -14,3 +14,8 @@ export const sidebarActive = atom({
   key: 'sidebarActive',
   default: '/',
 })
+
+export const pageOnState = atom({
+  key: 'pageOnState',
+  default: 'home',
+})

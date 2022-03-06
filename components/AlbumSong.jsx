@@ -18,7 +18,7 @@ export default function AlbumSong({ track, index, album }) {
       id: track.id,
       name: track.name,
       artists: track.artists,
-      image: album?.images[0]?.url,
+      image: album?.images[2]?.url,
     })
     setSongPlaying(true)
     spotify

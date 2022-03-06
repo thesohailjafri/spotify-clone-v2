@@ -42,7 +42,7 @@ export default function Player() {
   )
 
   useEffect(() => {
-    if (song)
+    if (song.id)
       if (volume >= 0 && volume <= 100) {
         setVolumnDebounced(volume)
       }
@@ -69,7 +69,7 @@ export default function Player() {
           className="h-14 w-14 shrink-0 overflow-hidden bg-black bg-cover"
         />
         <div className="truncate">
-          <h6 className=" text-neutral-100">{song?.name}</h6>
+          <h6 className=" truncate text-neutral-100">{song?.name}</h6>
           <p className="max-w-xs text-xs text-neutral-300">
             {song?.artists?.map((item) => item.name).join(', ')}
           </p>

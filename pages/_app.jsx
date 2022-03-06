@@ -1,11 +1,10 @@
 import '../styles/util.scss'
 import '../styles/globals.scss'
 
-import Layout from '../components/Layout'
+import Layout from '../layout/Layout'
 import { SessionProvider } from 'next-auth/react'
 import { RecoilRoot } from 'recoil'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
 import Head from 'next/head'
 
 function MyApp({ Component, pageProps }) {

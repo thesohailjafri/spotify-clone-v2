@@ -15,6 +15,7 @@
   .btn-lg {
     @apply inline h-20 w-20 cursor-pointer;
   }
+
   .vol-controller {
     @apply hidden items-center  justify-end gap-1 text-neutral-400 transition-all duration-100 
         ease-out hover:text-neutral-50 md:flex;
@@ -69,6 +70,12 @@
     }
     &:hover {
       @apply bg-opacity-50;
+      .btn-card {
+        @apply bottom-1 opacity-100;
+      }
+    }
+    .btn-card {
+      @apply absolute right-1 -bottom-6 inline h-16 w-16 scale-100 transform cursor-pointer rounded-full text-spotify-200  opacity-0 shadow-md transition-all duration-200 ease-in hover:scale-105;
     }
   }
   .see-all {
@@ -76,5 +83,8 @@
   }
   .card-grid {
     @apply grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 3xl:grid-cols-8;
+  }
+  .transition-global {
+    @apply transition-all duration-200 ease-linear;
   }
 }

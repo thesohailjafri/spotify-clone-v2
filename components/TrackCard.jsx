@@ -3,7 +3,7 @@ import { songState, songPlayingState } from '../atoms/songAtom'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import useSpotify from '../hooks/useSpotify'
 import { toast } from 'react-toastify'
-
+import { PlayIcon } from '@heroicons/react/solid'
 export default function TrackCard({ data }) {
   const spotify = useSpotify()
 
@@ -14,7 +14,7 @@ export default function TrackCard({ data }) {
       id: data?.id,
       name: data?.name,
       artists: data?.artists,
-      image: data?.album?.images[0]?.url,
+      image: data?.album?.images[2]?.url,
       data,
     })
     setSongPlaying(true)
@@ -33,8 +33,9 @@ export default function TrackCard({ data }) {
   }
   return (
     <div className="card p-3" onClick={playSong}>
-      <div className="shadow-md">
+      <div className="relative shadow-md">
         <img src={data?.album?.images[1]?.url} alt={`${data.name} album`} />
+        <PlayIcon className="btn-card " />
       </div>
       <div className="mt-3">
         <h6 className=" truncate">{data?.name}</h6>

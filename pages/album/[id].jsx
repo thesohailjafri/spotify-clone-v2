@@ -33,7 +33,7 @@ export default function Main() {
           setAlbum(res.body)
         })
         .catch((err) => {
-          //   router.replace('/notfound')
+          router.replace('/notfound')
         })
     }
   }
