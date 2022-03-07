@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import ProfileTab from '../components/ProfileTab'
 import {
   featuredPlaylistsState,
   newReleasesState,
@@ -18,7 +17,6 @@ import { useSession } from 'next-auth/react'
 import HomeHeadCard from '../components/HomeHeadCard'
 import AlbumCard from '../components/AlbumCard'
 import { cardCountState } from '../atoms/globalAtom'
-import { useState } from 'react'
 import TrackCard from '../components/TrackCard'
 import CategoryCard from '../components/CategoryCard'
 
@@ -158,7 +156,7 @@ export default function Home() {
       <div className="grid gap-y-6 p-3">
         {/* featured */}
         <div className="">
-          <h3 className=" my-6 text-xl font-bold lg:text-3xl">
+          <h3 className=" my-6 text-2xl font-bold md:text-3xl">
             {greetings()}
             {session?.user?.name ? `, ${session?.user?.name}` : ''}
           </h3>

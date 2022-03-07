@@ -14,8 +14,8 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import BottomBar from '../components/BottomBar'
 import { songState } from '../atoms/songAtom'
 import classNames from 'classnames'
-import Searchbar from '../components/SearchBar'
 import { useRouter } from 'next/router'
+import Topbar from '../components/Topbar'
 export default function Layout({ children }) {
   const router = useRouter()
   const [pageOn, setPageOn] = useRecoilState(pageOnState)
@@ -74,7 +74,7 @@ export default function Layout({ children }) {
         <BottomBar />
       </nav>
       <main className="scrollbar-hide h-screen grow overflow-y-scroll scrollbar scrollbar-thin  scrollbar-thumb-black">
-        <ProfileTab />
+        <Topbar />
         {children}
         <div className={classNames({ 'h-0': !song.id }, { 'h-20': song.id })} />
         <Player />
