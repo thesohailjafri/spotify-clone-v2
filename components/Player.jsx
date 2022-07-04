@@ -51,7 +51,7 @@ export default function Player() {
   return (
     <div
       className={classNames(
-        `absolute  left-0
+        `absolute  left-0 z-50
          grid w-full grid-cols-2 items-center 
          justify-between gap-3 overflow-hidden
           bg-neutral-800 px-4 text-neutral-100
